@@ -1,0 +1,116 @@
+<div class="main">
+   <div class="new-call"> Add New Call</div>
+   <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+   <button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewQuestion()">
+   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Question
+   </button>
+
+<!--
+// Question window with a text box to enter question and combobox on click of Add Question
+-->
+
+   <div *ngIf="question==true">
+      <div formArrayName="questions">
+         <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let question of myForm.get('questions').controls; let i=index">
+            <fieldset>
+               <div [formGroupName]="i">
+                  <div class="form-inline">
+                     <div class="form-group">
+                        {{i+1}}:  <input type="text"
+                           class="form-control"
+                           id="question"
+                           placeholder="your question"
+                           name="type"
+                           formControlName="question" 
+                           style="margin-right:5px;" 
+                           required>
+                        <select  class="form-control" formControlName="choice" [(ngModel)]="question.choice" (change)="setChoice(question.choice)"> 
+                        <option value="multiline">multiline</option>
+                        <option value="singlechoice">singlechoicee</option>
+                        <option value="multitext">
+                           multi-text
+                        </option>
+                        </select>
+
+
+<!--
+// On change drop down values below divs displays
+-->
+
+                        <div *ngIf="regTypeSelectedOption === 'multiline'">
+                           <textarea formControlName="parentTextArea">Pleasee type here</textarea>
+                        </div>
+                        <div *ngIf="regTypeSelectedOption === 'singlechoice'">
+                           <input type="text" formControlName="parentSingleChoice">
+                           <button style="margin-right:5px;"  type="button" class="btn btn-success btn-sm" (click)="addNewSubQuestion(question.controls.subquestions)">
+                           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New SubQuestion
+                           </button>
+                        </div>
+                        <div *ngIf="regTypeSelectedOption === 'multitext'">
+                           <input type="text" formControlName="multitext1">
+                           <input type="text" formControlName="multitext2">
+                           <input type="text" formControlName="multitext3">
+                           <input type="text" formControlName="multitext4">
+                           <input type="text" formControlName="multitext5">
+                           <button style="margin-right:5px;"  type="button" class="btn btn-success btn-sm" (click)="addNewSubQuestion(question.controls.subquestions)">
+                           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New SubQuestion
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
+
+
+                  <!--
+// Sub Question window with a text box to enter sub question question and combobox on click of Add Sub Question
+-->
+                  <div class="form-inline">
+                     <div class="form-group" *ngIf="subquestion==true">
+                        <div formArrayName="subquestions">
+                           <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let lines of question.get('subquestions').controls; let j=index">
+                              <div [formGroupName]="j">
+                                 <div class="form-group">
+                                    <label style="margin-right:5px;"  class="col-form-label" for="emailId">SubQuestion {{j + 1}}</label>
+                                    <input formControlName="subquestion_name"
+                                       class="form-control"
+                                       style="margin-right:5px;" 
+                                       type="email"
+                                       placeholder="SubQuestion"
+                                       id="subquestion_name"
+                                       name="subquestion_name"
+                                       />
+                                    <select formControlName="subchoice" [(ngModel)]="lines.subchoice" (change)="setSubChoice(lines.subchoice)"> 
+                                    <option value="multiline">multiline</option>
+                                    <option value="singlechoice">singlechoice</option>
+                                    <option value="multitext">
+                                       multi-text
+                                    </option>
+                                    </select>
+                                    <div *ngIf="regTypeSubSelectedOption === 'multiline'">
+                                       <textarea formControlName="childTextArea">Pleasee type here</textarea>
+                                    </div>
+                                    <div *ngIf="regTypeSubSelectedOption === 'singlechoice'">
+                                       <input type="text" formControlName="childSingleChoice">
+                                    </div>
+                                    <div *ngIf="regTypeSubSelectedOption === 'multitext'">
+                                       <input type="text" formControlName="childmultitext1">
+                                       <input type="text" formControlName="childmultitext2">
+                                       <input type="text" formControlName="childmultitext3">
+                                       <input type="text" formControlName="childmultitext4">
+                                       <input type="text" formControlName="childmultitext5">
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </fieldset>
+         </div>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+      <button type="button" class="btn btn-basic" >Cancel</button>
+   </div>
+   </form>
+</div>
